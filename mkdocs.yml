@@ -1,0 +1,10 @@
+site_name: JEM234
+repo_url: https://github.com/luk27official/JEM234/
+
+nav:
+    - "Introduction": "index.md"
+    - "Git Hooks": "git_hooks.md"
+
+# pip install mkdocs-material
+theme:
+    name: material
