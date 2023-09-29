@@ -51,6 +51,10 @@ done
 
 `Post-receive` script is invoked after a successful `git push` operation which means it may be used for post-push cleanup or notifications (typically e-mails). It does not receive any arguments, but like the `pre-receive` script, it may read the same values from standard input.
 
-## Connection to CI/CD
+## Connection to CI/CD (bonus)
 
 As a bonus, we may notice that Git hooks are somehow similar to CI/CD (continuous integration & deployment). CI/CD scripts typicall runs code builds, tests and deployments after successful pushes. Many Git online services provide this behaviour including GitHub and GitLab with options to run much more complicated things using Docker containers. This creates an opportunity for highly-automated development. As this is out of the scope for this project, we highly recommend to check it out yourself (e.g. [here](https://resources.github.com/ci-cd/)).
+
+## Summary
+
+Git hooks provide a way to run scripts based on various Git actions. They are put into the `.git/hooks` repository and based on their name they are invoked with certain actions. There were introduced two main types of hooks, local and server-sided. In the end, we have briefly introduced the reader to the topic of CI/CD.
