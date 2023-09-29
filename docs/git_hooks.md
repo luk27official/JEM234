@@ -10,7 +10,7 @@ To install the hooks, simply have a look at the `.git/hooks` folder inside your 
 
 To ensure that the hooks are runnable, run `chmod +x <script-name>` in the directory. This will update the file permissions for the script.  
 
-## Hook Scopes & Distribution
+## Hook scopes & distribution
 
 Hooks are used in both local and server Git repositories and are not copied to the remote by default. This means that every developer working on a specific project may locally define their own scripts they want to run, matching their personal preferences. Still, there are two ways to share the local hooks with the team:
 
@@ -19,4 +19,35 @@ Hooks are used in both local and server Git repositories and are not copied to t
 
 We will talk about the server hooks later.
 
+
+
+
+### Server hooks
+
+Server hooks have their place in server repositories. Their job mostly is to enforce some code standards by checking the pushed commits.
+
+There are 3 server-side hooks which trigger the scripts:
+
+- `pre-receive`
+
+- `update`
+
+- `post-receive`
+
+`Pre-receive` is run everytime an user uses `git push` to push their commits to the remote repository. This hook runs just once, just before any branch refs are updated. This is the stage where non-conforming commits may be rejected by the server, this includes running code errors, warnings, linting issues, wrong commit messages etc. The script has no parameters and is invoked with `<old-ref-value> <new-ref-value> <ref-name>` on each line of the standard input, which may be parsed by the server.
+
+An example of a `pre-receive` bash script follows:
+
+```bash
+#!/bin/bash
+set -e
+
+while read -r oldrev newrev refname; do
+    echo $oldrev $newrev $refname
+done
+```
+
+`Update` script is invoked after the `pre-receive` script finishes. It is invoked separately for each pushed branch, so for three pushed branches, the `update` script is invoked three times. The same three arguments are passed to the script, but differently from `pre-commit`, `update` does not ready from the standard input.
+
+`Post-receive` script is invoked after a successful `git push` operation which means it may be used for post-push cleanup or notifications (typically e-mails). It does not receive any arguments, but like the `pre-receive` script, it may read the same values from standard input.
 
