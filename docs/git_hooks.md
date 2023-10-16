@@ -6,23 +6,22 @@ This is a page that will contain more information about Git Hooks.
 
 ## Local hooks
 
-As already mentioned, the hooks can be modified by the contributor. Local hooks only apply to the repository in which they are installed.
-Some examples of the local hooks are:
-- pre-commit
-- prepare-commit-msg
-- commit-msg
-- post-commit
-- post-checkout
-- post-rebase
+As already mentioned, the hooks can be modified by the contributor. Local hooks run on your local machine and only apply to the repository in which they are installed. These hooks enable you to maintain consistency and automate specific actions in your local repository.
+
+Some of the most used local hooks are:
+- `pre-commit`
+- `prepare-commit-msg`
+- `commit-msg`
+- `post-commit`
+- `post-checkout`
+- `post-rebase`
 
 
 #### Pre-Commit
-The `pre-commit` hook is naturally linked to `git commit` command.
-It is executed before you even type in a commit message.
-Serves to check the snapshot to be committed, to ensure your commits meet some (formal) requirements or do not break any existing functionality.
-If the script in the `pre-commit` hook returns a non-zero exit code, the commit is prevented.
+The `pre-commit` hook is naturally linked to `git commit` command. It is executed before you even type in a commit message. Serves to check the snapshot to be committed, to ensure your commits meet some (formal) requirements or do not break any existing functionality.
+If the script in the `pre-commit` hook returns a non-zero exit code, the commit is aborted.
 
-This example of a `pre-commit` prevents incorrect authors from committing and checks the signing key:
+This example of a `pre-commit` hook prevents incorrect authors from committing and checks the signing key:
 
 ```bash
 #!/bin/bash
@@ -47,3 +46,15 @@ else
         exit 0
 fi
 ```
+
+#### Prepare-Commit-Message
+Runs between the dafault log message creation and editor poping up. It is used to populate the text editor with a automatic commit message.
+You need to specify 1-3 parameters in `prepare-commit-msg`:
+- The name of the file that contains the commit message
+- The source of the commit message (message, template, merge, squash or commit)
+- The hash of the relevant commit.
+
+#### Commit-Message
+The `commit-msg` hook is executed after the user enteres the commit message. Its main purpose is to ensure that your commit messages are in consistency with other developers. It can be used to enforce specific message formats or issue tracking conventions. Only one argument is passed to this hook, and that is the name of the file that contains the desired commit message.
+
+When `prepare-commit-msg` and `commit-msg` hooks exit in non-zero status, the commit is prevented.
