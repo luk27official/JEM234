@@ -130,3 +130,9 @@ As a bonus, we may notice that Git hooks are somehow similar to CI/CD (continuou
 ## Summary
 
 Git hooks provide a way to run scripts based on various Git actions. They are put into the `.git/hooks` repository and based on their name they are invoked with certain actions. There were introduced two main types of hooks, local and server-sided. In the end, we have briefly introduced the reader to the topic of CI/CD.
+
+## Sources
+
+- https://www.atlassian.com/git/tutorials/git-hooks
+- https://git-scm.com/book/en/v2/Customizing-Git-Git-Hooks
+- https://suthagar23.medium.com/git-hooks-keep-the-code-quality-119e6feb511e (picture)
