@@ -21,7 +21,7 @@ Hooks are used in both local and server Git repositories and are not copied to t
 
 We will talk about the server hooks later.
 
-<img src="./photo.jpg" alt="Visualization" />
+![Visualization](photo.jpg)
 
 ### Local hooks
 
