@@ -151,6 +151,6 @@ Git hooks provide a way to run scripts based on various Git actions. They are pu
 
 ## Sources
 
-- https://www.atlassian.com/git/tutorials/git-hooks
-- https://git-scm.com/book/en/v2/Customizing-Git-Git-Hooks
-- https://suthagar23.medium.com/git-hooks-keep-the-code-quality-119e6feb511e (picture)
+- [https://www.atlassian.com/git/tutorials/git-hooks]()
+- [https://git-scm.com/book/en/v2/Customizing-Git-Git-Hooks]()
+- [https://suthagar23.medium.com/git-hooks-keep-the-code-quality-119e6feb511e]() (picture)
