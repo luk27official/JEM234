@@ -21,7 +21,7 @@ Hooks are used in both local and server Git repositories and are not copied to t
 
 We will talk about the server hooks later.
 
-<img src="/photo.jpg" alt="Visualization" />
+<img src="./photo.jpg" alt="Visualization" />
 
 ### Local hooks
 
@@ -38,7 +38,7 @@ Some of the most used local hooks are:
 
 #### Pre-Commit
 
-The `pre-commit` hook is naturally linked to the `git commit` command. It is executed before the user types in a commit message. The hook serves to check the snapshot to be committed and to ensure your commits meet some (formal) requirements or it does not break any existing functionality.
+The `pre-commit` hook is naturally linked to the `git commit` command. It is executed before the user types in a commit message. The hook serves to check the snapshot to be committed to ensure your commits meet some (formal) requirements or it does not break any existing functionality.
 If the script in the `pre-commit` hook returns a non-zero exit code, the commit is aborted.
 
 This example of a `pre-commit` hook prevents incorrect authors from committing and checks the signing key:
