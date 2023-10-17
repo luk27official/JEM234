@@ -8,7 +8,7 @@ Git hooks are scripts that are run alongside to some events that happen in a Git
 
 ## Installation
 
-To install the hooks, simply have a look at the `.git/hooks` folder inside your repository. This folder should be already be present in an existing repository with a few examples. The sample programs are simple Linux shell scripts (identified by the `#!/bin/sh` so-called shebangs). The shebang determines the actual type of the script, some other examples of the shebangs include `#!/bin/bash` and `#!/usr/bin/env python3`.
+To install the hooks, simply have a look at the `.git/hooks` folder inside the repository. This folder should be already be present in an existing repository with a few examples. The sample programs are simple Linux shell scripts (identified by the `#!/bin/sh` so-called shebangs). The shebang determines the actual type of the script, some other examples of the shebangs include `#!/bin/bash` and `#!/usr/bin/env python3`.
 
 To ensure that the hooks are runnable, run `chmod +x <script-name>` in the directory. This will update the file permissions for the script.  
 
@@ -21,7 +21,7 @@ Hooks are used in both local and server Git repositories and are not copied to t
 
 We will talk about the server hooks later.
 
-<img src="./obrazek1.jpg" alt="Visualization" />
+<img src="./photo.jpg" alt="Visualization" />
 
 ### Local hooks
 
@@ -37,7 +37,8 @@ Some of the most used local hooks are:
 
 
 #### Pre-Commit
-The `pre-commit` hook is naturally linked to `git commit` command. It is executed before you even type in a commit message. Serves to check the snapshot to be committed, to ensure your commits meet some (formal) requirements or do not break any existing functionality.
+
+The `pre-commit` hook is naturally linked to the `git commit` command. It is executed before the user types in a commit message. The hook serves to check the snapshot to be committed and to ensure your commits meet some (formal) requirements or it does not break any existing functionality.
 If the script in the `pre-commit` hook returns a non-zero exit code, the commit is aborted.
 
 This example of a `pre-commit` hook prevents incorrect authors from committing and checks the signing key:
@@ -67,32 +68,43 @@ fi
 ```
 
 #### Prepare-Commit-Message
-Runs between the dafault log message creation and editor poping up. It is used to populate the text editor with a automatic commit message.
-You need to specify 1-3 parameters in `prepare-commit-msg`:
+
+Runs in between the default log message creation and editor popping up. It is used to populate the text editor with a automatic commit message.
+The user is required to specify 1-3 parameters in `prepare-commit-msg`:
+
 - The name of the file that contains the commit message
+  
 - The source of the commit message (message, template, merge, squash or commit)
-- The hash of the relevant commit.
+  
+- The hash of the relevant commit
 
 #### Commit-Message
-The `commit-msg` hook is executed after the user enteres a commit message. Its main purpose is to ensure that your commit messages are in consistency with other developers. It can be used to enforce specific message formats or issue tracking conventions. Only one argument is passed to this hook, and that is the name of the file that contains the desired commit message.
+
+The `commit-msg` hook is executed after the user enters a commit message. Its main purpose is to ensure that the commit messages are in consistency with other developers. It can be used to enforce specific message formats or issue tracking conventions. Only one argument is passed to this hook, and that is the name of the file that contains the desired commit message.
 
 If `prepare-commit-msg` and `commit-msg` hooks exit in a non-zero status, the commit is prevented.
 
 #### Post-Commit
+
 This hook is called after a commit has been successfully made. It takes no parameters, and is often used for notifications. Note that this hook cannot affect the outcome of a `git commit`, which means that even a non-zero exit status will not terminate it.
 
 #### Post-Checkout
+
 The `post-checkout` hook is called after a `git checkout` or `git switch` operation has been run. It takes three parameters:
+
 - The ref of the previous HEAD
+
 - The ref of the new HEAD
+
 - A flag indicating whether the checkout was a branch checkout or a file checkout
 
 #### Pre-Rebase
-The `pre-rebase` hook is executed before the git rebase operation is completed. It is used to prevent or customize the rebase process, ensuring it complies with your project's guidelines. Two arguments are passed to the `pre-rebase` script:
+
+The `pre-rebase` hook is executed before the git rebase operation is completed. It is used to prevent or customize the rebase process, ensuring it complies with the project's guidelines. Two arguments are passed to the `pre-rebase` script:
+
 - The upstream branch from which the series was forked
+
 - The branch being rebased
-
-
 
 ### Server hooks
 
@@ -106,7 +118,9 @@ There are 3 server-side hooks which trigger the scripts:
 
 - `post-receive`
 
-`Pre-receive` is run everytime an user uses `git push` to push their commits to the remote repository. This hook runs just once, just before any branch refs are updated. This is the stage where non-conforming commits may be rejected by the server, this includes running code errors, warnings, linting issues, wrong commit messages etc. The script has no parameters and is invoked with `<old-ref-value> <new-ref-value> <ref-name>` on each line of the standard input, which may be parsed by the server.
+#### Pre-Receive
+
+The `Pre-receive` hook is run everytime an user uses `git push` to push their commits to the remote repository. This hook runs just once, just before any branch refs are updated. This is the stage where non-conforming commits may be rejected by the server, this includes running code errors, warnings, linting issues, wrong commit messages etc. The script has no parameters and is invoked with `<old-ref-value> <new-ref-value> <ref-name>` on each line of the standard input, which may be parsed by the server.
 
 An example of a `pre-receive` bash script follows:
 
@@ -119,9 +133,13 @@ while read -r oldrev newrev refname; do
 done
 ```
 
-`Update` script is invoked after the `pre-receive` script finishes. It is invoked separately for each pushed branch, so for three pushed branches, the `update` script is invoked three times. The same three arguments are passed to the script, but differently from `pre-commit`, `update` does not ready from the standard input.
+#### Update
 
-`Post-receive` script is invoked after a successful `git push` operation which means it may be used for post-push cleanup or notifications (typically e-mails). It does not receive any arguments, but like the `pre-receive` script, it may read the same values from standard input.
+The `Update` hook is invoked after the `pre-receive` script finishes. It is invoked separately for each pushed branch, so for three pushed branches, the `update` script is invoked three times. The same three arguments are passed to the script, but differently from `pre-commit`, `update` does not ready from the standard input.
+
+#### Post-Receive
+
+The `Post-receive` hook is invoked after a successful `git push` operation which means it may be used for post-push cleanup or notifications (typically e-mails). It does not receive any arguments, but like the `pre-receive` script, it may read the same values from standard input.
 
 ## Connection to CI/CD (bonus)
 
