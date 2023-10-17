@@ -1,0 +1,779 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+      
+        <link rel="prev" href="..">
+      
+      
+      
+      <link rel="icon" href="../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.5.3, mkdocs-material-9.4.2">
+    
+    
+      
+        <title>Git Hooks - Git Hooks (JEM234)</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/main.d451bc0e.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce((e,_)=>(e<<5)-e+_.charCodeAt(0),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+  </head>
+  
+  
+    <body dir="ltr">
+  
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&"object"==typeof palette.color)for(var key of Object.keys(palette.color))document.body.setAttribute("data-md-color-"+key,palette.color[key])</script>
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#git-hooks" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href=".." title="Git Hooks (JEM234)" class="md-header__button md-logo" aria-label="Git Hooks (JEM234)" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54Z"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2Z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Git Hooks (JEM234)
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Git Hooks
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+    
+    
+      <label class="md-header__button md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+      </label>
+      <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41Z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/luk27official/JEM234/" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.4.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2023 Fonticons, Inc.--><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81z"/></svg>
+  </div>
+  <div class="md-source__repository">
+    GitHub
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href=".." title="Git Hooks (JEM234)" class="md-nav__button md-logo" aria-label="Git Hooks (JEM234)" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54Z"/></svg>
+
+    </a>
+    Git Hooks (JEM234)
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/luk27official/JEM234/" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.4.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2023 Fonticons, Inc.--><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81z"/></svg>
+  </div>
+  <div class="md-source__repository">
+    GitHub
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+    <li class="md-nav__item">
+      <a href=".." class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Introduction
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  <span class="md-ellipsis">
+    Git Hooks
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  <span class="md-ellipsis">
+    Git Hooks
+  </span>
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#introduction" class="md-nav__link">
+    Introduction
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#installation" class="md-nav__link">
+    Installation
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#hook-scopes-distribution" class="md-nav__link">
+    Hook scopes &amp; distribution
+  </a>
+  
+    <nav class="md-nav" aria-label="Hook scopes & distribution">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#local-hooks" class="md-nav__link">
+    Local hooks
+  </a>
+  
+    <nav class="md-nav" aria-label="Local hooks">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#pre-commit" class="md-nav__link">
+    Pre-Commit
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#prepare-commit-message" class="md-nav__link">
+    Prepare-Commit-Message
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#commit-message" class="md-nav__link">
+    Commit-Message
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#post-commit" class="md-nav__link">
+    Post-Commit
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#post-checkout" class="md-nav__link">
+    Post-Checkout
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#pre-rebase" class="md-nav__link">
+    Pre-Rebase
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#server-hooks" class="md-nav__link">
+    Server hooks
+  </a>
+  
+    <nav class="md-nav" aria-label="Server hooks">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#pre-receive" class="md-nav__link">
+    Pre-Receive
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#update" class="md-nav__link">
+    Update
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#post-receive" class="md-nav__link">
+    Post-Receive
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#connection-to-cicd-bonus" class="md-nav__link">
+    Connection to CI/CD (bonus)
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#summary" class="md-nav__link">
+    Summary
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#sources" class="md-nav__link">
+    Sources
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#introduction" class="md-nav__link">
+    Introduction
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#installation" class="md-nav__link">
+    Installation
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#hook-scopes-distribution" class="md-nav__link">
+    Hook scopes &amp; distribution
+  </a>
+  
+    <nav class="md-nav" aria-label="Hook scopes & distribution">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#local-hooks" class="md-nav__link">
+    Local hooks
+  </a>
+  
+    <nav class="md-nav" aria-label="Local hooks">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#pre-commit" class="md-nav__link">
+    Pre-Commit
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#prepare-commit-message" class="md-nav__link">
+    Prepare-Commit-Message
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#commit-message" class="md-nav__link">
+    Commit-Message
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#post-commit" class="md-nav__link">
+    Post-Commit
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#post-checkout" class="md-nav__link">
+    Post-Checkout
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#pre-rebase" class="md-nav__link">
+    Pre-Rebase
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#server-hooks" class="md-nav__link">
+    Server hooks
+  </a>
+  
+    <nav class="md-nav" aria-label="Server hooks">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#pre-receive" class="md-nav__link">
+    Pre-Receive
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#update" class="md-nav__link">
+    Update
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#post-receive" class="md-nav__link">
+    Post-Receive
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#connection-to-cicd-bonus" class="md-nav__link">
+    Connection to CI/CD (bonus)
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#summary" class="md-nav__link">
+    Summary
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#sources" class="md-nav__link">
+    Sources
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+  
+  
+
+
+<h1 id="git-hooks">Git Hooks</h1>
+<p>This is a page that will contain more information about Git Hooks.</p>
+<h2 id="introduction">Introduction</h2>
+<p>Git hooks are scripts that are run alongside to some events that happen in a Git repository. The hooks may be used for various workflow purposes, such as deploying new code, linting code, checking errors etc.</p>
+<h2 id="installation">Installation</h2>
+<p>To install the hooks, simply have a look at the <code>.git/hooks</code> folder inside the repository. This folder should be already be present in an existing repository with a few examples. The sample programs are simple Linux shell scripts (identified by the <code>#!/bin/sh</code> so-called shebangs). The shebang determines the actual type of the script, some other examples of the shebangs include <code>#!/bin/bash</code> and <code>#!/usr/bin/env python3</code>.</p>
+<p>To ensure that the hooks are runnable, run <code>chmod +x &lt;script-name&gt;</code> in the directory. This will update the file permissions for the script.  </p>
+<h2 id="hook-scopes-distribution">Hook scopes &amp; distribution</h2>
+<p>Hooks are used in both local and server Git repositories and are not copied to the remote by default. This means that every developer working on a specific project may locally define their own scripts they want to run, matching their personal preferences. Still, there are two ways to share the local hooks with the team:</p>
+<ol>
+<li>Put the hooks into a separate folder. Simply create a normal folder for the hooks and treat the scripts just as regular repository files. Optionally, it is possible to create a Linux symlink to the <code>.git/hooks</code> directory (this means that the directory has 2 or more paths which it resides on, but in reality, the directory is stored just once). This means all of the files will be updated automatically.</li>
+<li>Use the Git template folder directory, which may be set up via the <code>$GIT_TEMPLATE_DIR</code> environment variable or via configuring Git. This will also update the hooks automatically.</li>
+</ol>
+<p>We will talk about the server hooks later.</p>
+<p><img alt="Visualization" src="../photo.jpg" /></p>
+<h3 id="local-hooks">Local hooks</h3>
+<p>As already mentioned, the hooks can be modified by the contributor. Local hooks run on your local machine and only apply to the repository in which they are installed. These hooks enable you to maintain consistency and automate specific actions in your local repository.</p>
+<p>Some of the most used local hooks are:
+- <code>pre-commit</code>
+- <code>prepare-commit-msg</code>
+- <code>commit-msg</code>
+- <code>post-commit</code>
+- <code>post-checkout</code>
+- <code>pre-rebase</code></p>
+<h4 id="pre-commit">Pre-Commit</h4>
+<p>The <code>pre-commit</code> hook is naturally linked to the <code>git commit</code> command. It is executed before the user types in a commit message. The hook serves to check the snapshot to be committed to ensure your commits meet some (formal) requirements or it does not break any existing functionality.
+If the script in the <code>pre-commit</code> hook returns a non-zero exit code, the commit is aborted.</p>
+<p>This example of a <code>pre-commit</code> hook prevents incorrect authors from committing and checks the signing key:</p>
+<pre><code class="language-bash">#!/bin/bash
+
+PWD=`pwd`
+globalEmail=`git config --global --get user.email`
+signingKey=`git config --global --get user.signingkey`
+workEmail=&quot;example@axosoft.com&quot;
+
+if [[ $PWD != &quot;*demo*&quot; &amp;&amp; $globalEmail != $workEmail ]];
+then
+        echo &quot;Commit email and global git config email differ&quot;
+        echo &quot;Global commit email: &quot;$globalEmail&quot;&quot;
+        echo &quot;Committing email expected: $workEmail&quot;
+        exit 1
+elif [[ $signingKey -eq &quot;&quot; ]];
+then
+        echo &quot;No signing key found. Check global gitconfig&quot;
+        exit 1
+else
+        echo &quot;&quot;
+        exit 0
+fi
+</code></pre>
+<h4 id="prepare-commit-message">Prepare-Commit-Message</h4>
+<p>Runs in between the default log message creation and editor popping up. It is used to populate the text editor with a automatic commit message.
+The user is required to specify 1-3 parameters in <code>prepare-commit-msg</code>:</p>
+<ul>
+<li>
+<p>The name of the file that contains the commit message</p>
+</li>
+<li>
+<p>The source of the commit message (message, template, merge, squash or commit)</p>
+</li>
+<li>
+<p>The hash of the relevant commit</p>
+</li>
+</ul>
+<h4 id="commit-message">Commit-Message</h4>
+<p>The <code>commit-msg</code> hook is executed after the user enters a commit message. Its main purpose is to ensure that the commit messages are in consistency with other developers. It can be used to enforce specific message formats or issue tracking conventions. Only one argument is passed to this hook, and that is the name of the file that contains the desired commit message.</p>
+<p>If <code>prepare-commit-msg</code> and <code>commit-msg</code> hooks exit in a non-zero status, the commit is prevented.</p>
+<h4 id="post-commit">Post-Commit</h4>
+<p>This hook is called after a commit has been successfully made. It takes no parameters, and is often used for notifications. Note that this hook cannot affect the outcome of a <code>git commit</code>, which means that even a non-zero exit status will not terminate it.</p>
+<h4 id="post-checkout">Post-Checkout</h4>
+<p>The <code>post-checkout</code> hook is called after a <code>git checkout</code> or <code>git switch</code> operation has been run. It takes three parameters:</p>
+<ul>
+<li>
+<p>The ref of the previous HEAD</p>
+</li>
+<li>
+<p>The ref of the new HEAD</p>
+</li>
+<li>
+<p>A flag indicating whether the checkout was a branch checkout or a file checkout</p>
+</li>
+</ul>
+<h4 id="pre-rebase">Pre-Rebase</h4>
+<p>The <code>pre-rebase</code> hook is executed before the git rebase operation is completed. It is used to prevent or customize the rebase process, ensuring it complies with the project's guidelines. Two arguments are passed to the <code>pre-rebase</code> script:</p>
+<ul>
+<li>
+<p>The upstream branch from which the series was forked</p>
+</li>
+<li>
+<p>The branch being rebased</p>
+</li>
+</ul>
+<h3 id="server-hooks">Server hooks</h3>
+<p>Server hooks have their place in server repositories. Their job mostly is to enforce some code standards by checking the pushed commits.</p>
+<p>There are 3 server-side hooks which trigger the scripts:</p>
+<ul>
+<li>
+<p><code>pre-receive</code></p>
+</li>
+<li>
+<p><code>update</code></p>
+</li>
+<li>
+<p><code>post-receive</code></p>
+</li>
+</ul>
+<h4 id="pre-receive">Pre-Receive</h4>
+<p>The <code>Pre-receive</code> hook is run everytime an user uses <code>git push</code> to push their commits to the remote repository. This hook runs just once, just before any branch refs are updated. This is the stage where non-conforming commits may be rejected by the server, this includes running code errors, warnings, linting issues, wrong commit messages etc. The script has no parameters and is invoked with <code>&lt;old-ref-value&gt; &lt;new-ref-value&gt; &lt;ref-name&gt;</code> on each line of the standard input, which may be parsed by the server.</p>
+<p>An example of a <code>pre-receive</code> bash script follows:</p>
+<pre><code class="language-bash">#!/bin/bash
+set -e
+
+while read -r oldrev newrev refname; do
+    echo $oldrev $newrev $refname
+done
+</code></pre>
+<h4 id="update">Update</h4>
+<p>The <code>Update</code> hook is invoked after the <code>pre-receive</code> script finishes. It is invoked separately for each pushed branch, so for three pushed branches, the <code>update</code> script is invoked three times. The same three arguments are passed to the script, but differently from <code>pre-commit</code>, <code>update</code> does not ready from the standard input.</p>
+<h4 id="post-receive">Post-Receive</h4>
+<p>The <code>Post-receive</code> hook is invoked after a successful <code>git push</code> operation which means it may be used for post-push cleanup or notifications (typically e-mails). It does not receive any arguments, but like the <code>pre-receive</code> script, it may read the same values from standard input.</p>
+<h2 id="connection-to-cicd-bonus">Connection to CI/CD (bonus)</h2>
+<p>As a bonus, we may notice that Git hooks are somehow similar to CI/CD (continuous integration &amp; deployment). CI/CD scripts typicall runs code builds, tests and deployments after successful pushes. Many Git online services provide this behaviour including GitHub and GitLab with options to run much more complicated things using Docker containers. This creates an opportunity for highly-automated development. As this is out of the scope for this project, we highly recommend to check it out yourself (e.g. <a href="https://resources.github.com/ci-cd/">here</a>).</p>
+<h2 id="summary">Summary</h2>
+<p>Git hooks provide a way to run scripts based on various Git actions. They are put into the <code>.git/hooks</code> repository and based on their name they are invoked with certain actions. There were introduced two main types of hooks, local and server-sided. In the end, we have briefly introduced the reader to the topic of CI/CD.</p>
+<h2 id="sources">Sources</h2>
+<ul>
+<li>https://www.atlassian.com/git/tutorials/git-hooks</li>
+<li>https://git-scm.com/book/en/v2/Customizing-Git-Git-Hooks</li>
+<li>https://suthagar23.medium.com/git-hooks-keep-the-code-quality-119e6feb511e (picture)</li>
+</ul>
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    <script id="__config" type="application/json">{"base": "..", "features": [], "search": "../assets/javascripts/workers/search.a264c092.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
+    
+    
+      <script src="../assets/javascripts/bundle.726fbb30.min.js"></script>
+      
+    
+  </body>
+</html>
